@@ -1,0 +1,85 @@
+{
+	"info": {
+		"_postman_id": "c9a2d8b1-1a8e-4a1c-8b8d-0e4f2b1c7f5a",
+		"name": "School Management API",
+		"description": "APIs for adding and listing schools by proximity.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add a New School",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Global Innovators School\",\n    \"address\": \"123 Tech Park, Bangalore, KA\",\n    \"latitude\": 12.9716,\n    \"longitude\": 77.5946\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/addSchool",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"addSchool"
+					]
+				},
+				"description": "Adds a new school to the database. \n\n**Expected Success Response (201 Created):**\n```json\n{\n    \"message\": \"School added successfully!\",\n    \"schoolId\": 1\n}\n```\n\n**Expected Error Response (400 Bad Request):**\n```json\n{\n    \"errors\": [\n        {\n            \"type\": \"field\",\n            \"msg\": \"A valid latitude (-90 to 90) is required.\",\n            \"path\": \"latitude\",\n            \"location\": \"body\"\n        }\n    ]\n}\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "List Schools by Proximity",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/listSchools?userLat=18.5204&userLon=73.8567",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"listSchools"
+					],
+					"query": [
+						{
+							"key": "userLat",
+							"value": "18.5204",
+							"description": "User's current latitude (e.g., Pune)"
+						},
+						{
+							"key": "userLon",
+							"value": "73.8567",
+							"description": "User's current longitude (e.g., Pune)"
+						}
+					]
+				},
+				"description": "Retrieves all schools from the database and sorts them based on the distance from the user's provided coordinates.\n\n**Expected Success Response (200 OK):**\n```json\n[\n    {\n        \"id\": 2,\n        \"name\": \"Pimpri-Chinchwad International School\",\n        \"address\": \"456 Auto Cluster, PCMC, Pune\",\n        \"latitude\": 18.6298,\n        \"longitude\": 73.7997,\n        \"distance_km\": 15.01358893952134\n    },\n    {\n        \"id\": 1,\n        \"name\": \"Global Innovators School\",\n        \"address\": \"123 Tech Park, Bangalore, KA\",\n        \"latitude\": 12.9716,\n        \"longitude\": 77.5946,\n        \"distance_km\": 836.819077977456\n    }\n]\n```"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		}
+	],
+	"dependencies": {
+		"@supabase/supabase-js": "^2.54.0",
+		"dotenv": "^17.2.1",
+		"express": "^5.1.0",
+		"express-validator": "^7.2.1",
+		"git": "^0.1.5"
+	}
+}
