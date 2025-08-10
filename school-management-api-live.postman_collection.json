@@ -1,0 +1,176 @@
+{
+  "info": {
+    "_postman_id": "c9a2d8b1-1a8e-4a1c-8b8d-0e4f2b1c7f5a",
+    "name": "School Management API - Live",
+    "description": "APIs for adding and listing schools by proximity. Deployed on Render.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://your-app-url.onrender.com",
+      "type": "string",
+      "description": "Replace with your actual Render URL"
+    }
+  ],
+  "item": [
+    {
+      "name": "Add a New School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Global Innovators School\",\n    \"address\": \"123 Tech Park, Bangalore, KA\",\n    \"latitude\": 12.9716,\n    \"longitude\": 77.5946\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/addSchool",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "addSchool"
+          ]
+        },
+        "description": "Adds a new school to the database.\n\n**Expected Success Response (201 Created):**\n```json\n{\n    \"message\": \"School added successfully!\",\n    \"school\": {\n        \"id\": 1,\n        \"name\": \"Global Innovators School\",\n        \"address\": \"123 Tech Park, Bangalore, KA\",\n        \"latitude\": 12.9716,\n        \"longitude\": 77.5946,\n        \"created_at\": \"2025-01-10T12:00:00.000Z\"\n    }\n}\n```\n\n**Expected Error Response (400 Bad Request):**\n```json\n{\n    \"errors\": [\n        {\n            \"type\": \"field\",\n            \"msg\": \"A valid latitude (-90 to 90) is required.\",\n            \"path\": \"latitude\",\n            \"location\": \"body\"\n        }\n    ]\n}\n```"
+      },
+      "response": []
+    },
+    {
+      "name": "List Schools by Proximity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/listSchools?userLat=18.5204&userLon=73.8567",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "listSchools"
+          ],
+          "query": [
+            {
+              "key": "userLat",
+              "value": "18.5204",
+              "description": "User's latitude (Pune, India example)"
+            },
+            {
+              "key": "userLon",
+              "value": "73.8567",
+              "description": "User's longitude (Pune, India example)"
+            }
+          ]
+        },
+        "description": "Retrieves all schools sorted by proximity to the user's location.\n\n**Expected Success Response (200 OK):**\n```json\n[\n    {\n        \"id\": 1,\n        \"name\": \"Global Innovators School\",\n        \"address\": \"123 Tech Park, Bangalore, KA\",\n        \"latitude\": 12.9716,\n        \"longitude\": 77.5946,\n        \"created_at\": \"2025-01-10T12:00:00.000Z\",\n        \"distance_km\": 457.32\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Tech Academy Mumbai\",\n        \"address\": \"456 Business District, Mumbai, MH\",\n        \"latitude\": 19.0760,\n        \"longitude\": 72.8777,\n        \"created_at\": \"2025-01-10T12:30:00.000Z\",\n        \"distance_km\": 118.45\n    }\n]\n```\n\n**Expected Error Response (400 Bad Request):**\n```json\n{\n    \"errors\": [\n        {\n            \"type\": \"field\",\n            \"msg\": \"A valid user latitude (userLat) is required.\",\n            \"path\": \"userLat\",\n            \"location\": \"query\"\n        }\n    ]\n}\n```"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Mumbai School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Tech Academy Mumbai\",\n    \"address\": \"456 Business District, Mumbai, MH\",\n    \"latitude\": 19.0760,\n    \"longitude\": 72.8777\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/addSchool",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "addSchool"
+          ]
+        },
+        "description": "Example: Add a school in Mumbai"
+      },
+      "response": []
+    },
+    {
+      "name": "Add Delhi School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Capital Public School\",\n    \"address\": \"789 Education Hub, New Delhi, DL\",\n    \"latitude\": 28.6139,\n    \"longitude\": 77.2090\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/addSchool",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "addSchool"
+          ]
+        },
+        "description": "Example: Add a school in Delhi"
+      },
+      "response": []
+    },
+    {
+      "name": "Test Validation - Invalid Latitude",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Test School\",\n    \"address\": \"Test Address\",\n    \"latitude\": 95,\n    \"longitude\": 77.2090\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/addSchool",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "addSchool"
+          ]
+        },
+        "description": "Test validation with invalid latitude (should return 400 error)"
+      },
+      "response": []
+    }
+  ]
+}

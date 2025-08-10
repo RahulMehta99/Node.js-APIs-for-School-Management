@@ -1,0 +1,689 @@
+{
+  "info": {
+    "_postman_id": "school-mgmt-api-production",
+    "name": "🏫 School Management API - Production Ready",
+    "description": "Complete API testing suite for School Management System\n\n**Features:**\n- Add schools with full validation\n- List schools sorted by proximity\n- Comprehensive error testing\n- Distance calculation verification\n\n**Live API**: Replace {{baseUrl}} with your Render deployment URL\n\n**Author**: School Management Team\n**Version**: 1.0\n**Date**: August 2025",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://school-management-api-latest.onrender.com",
+      "type": "string",
+      "description": "🔗 Replace with your actual Render deployment URL"
+    }
+  ],
+  "item": [
+    {
+      "name": "📚 School Management APIs",
+      "item": [
+        {
+          "name": "➕ Add School - Bangalore",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Response has success message', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.message).to.include('successfully');",
+                  "});",
+                  "",
+                  "pm.test('School data returned', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.school).to.have.property('id');",
+                  "    pm.expect(jsonData.school.name).to.equal('Global Tech Academy Bangalore');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Global Tech Academy Bangalore\",\n    \"address\": \"123 Tech Park, Electronic City, Bangalore, Karnataka 560100\",\n    \"latitude\": 12.9716,\n    \"longitude\": 77.5946\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "✅ Add a technology-focused school in Bangalore.\n\n**Expected Result**: 201 Created with school details"
+          }
+        },
+        {
+          "name": "➕ Add School - Mumbai",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Mumbai school added successfully', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.school.name).to.include('Mumbai');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"International Business School Mumbai\",\n    \"address\": \"456 Business District, Bandra Kurla Complex, Mumbai, Maharashtra 400051\",\n    \"latitude\": 19.0760,\n    \"longitude\": 72.8777\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "✅ Add a business school in Mumbai's financial district."
+          }
+        },
+        {
+          "name": "➕ Add School - Delhi",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 201', function () {",
+                  "    pm.response.to.have.status(201);",
+                  "});",
+                  "",
+                  "pm.test('Delhi school added successfully', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.school.name).to.include('Delhi');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Capital Public School Delhi\",\n    \"address\": \"789 Education Hub, Connaught Place, New Delhi, Delhi 110001\",\n    \"latitude\": 28.6139,\n    \"longitude\": 77.2090\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "✅ Add a public school in New Delhi."
+          }
+        },
+        {
+          "name": "📍 List Schools from Pune",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Returns array of schools', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.be.an('array');",
+                  "});",
+                  "",
+                  "pm.test('Schools have distance calculated', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        pm.expect(jsonData[0]).to.have.property('distance_km');",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Schools sorted by distance', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.length > 1) {",
+                  "        pm.expect(jsonData[0].distance_km).to.be.at.most(jsonData[1].distance_km);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLat=18.5204&userLon=73.8567",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLat",
+                  "value": "18.5204",
+                  "description": "Pune latitude"
+                },
+                {
+                  "key": "userLon",
+                  "value": "73.8567",
+                  "description": "Pune longitude"
+                }
+              ]
+            },
+            "description": "📊 Get all schools sorted by distance from Pune.\n\n**Expected Order** (closest to farthest):\n1. Mumbai (~118 km)\n2. Bangalore (~457 km) \n3. Delhi (~1,163 km)"
+          }
+        },
+        {
+          "name": "📍 List Schools from Mumbai",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Mumbai school should be closest', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        const mumbaiSchool = jsonData.find(school => school.name.includes('Mumbai'));",
+                  "        if (mumbaiSchool) {",
+                  "            pm.expect(mumbaiSchool.distance_km).to.be.below(50); // Should be very close",
+                  "        }",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLat=19.0760&userLon=72.8777",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLat",
+                  "value": "19.0760",
+                  "description": "Mumbai latitude"
+                },
+                {
+                  "key": "userLon",
+                  "value": "72.8777",
+                  "description": "Mumbai longitude"
+                }
+              ]
+            },
+            "description": "📊 Get all schools sorted by distance from Mumbai.\n\n**Expected**: Mumbai school should be first (closest)"
+          }
+        }
+      ],
+      "description": "✅ Core functionality tests for adding and listing schools"
+    },
+    {
+      "name": "🚨 Validation & Error Tests",
+      "item": [
+        {
+          "name": "❌ Add School - Empty Name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Returns validation error', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('errors');",
+                  "    pm.expect(jsonData.errors[0].msg).to.include('name');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"\",\n    \"address\": \"Test Address\",\n    \"latitude\": 18.5204,\n    \"longitude\": 73.8567\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "🔍 Test validation for empty school name.\n\n**Expected**: 400 Bad Request with validation error"
+          }
+        },
+        {
+          "name": "❌ Add School - Invalid Latitude",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Returns latitude validation error', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.errors[0].msg).to.include('latitude');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test School\",\n    \"address\": \"Test Address\",\n    \"latitude\": 95,\n    \"longitude\": 73.8567\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "🔍 Test validation for invalid latitude (>90).\n\n**Expected**: 400 Bad Request with latitude validation error"
+          }
+        },
+        {
+          "name": "❌ Add School - Invalid Longitude",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Returns longitude validation error', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.errors[0].msg).to.include('longitude');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Test School\",\n    \"address\": \"Test Address\", \n    \"latitude\": 18.5204,\n    \"longitude\": 185\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/addSchool",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "addSchool"
+              ]
+            },
+            "description": "🔍 Test validation for invalid longitude (>180).\n\n**Expected**: 400 Bad Request with longitude validation error"
+          }
+        },
+        {
+          "name": "❌ List Schools - Missing Latitude",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Returns userLat validation error', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.errors[0].msg).to.include('userLat');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLon=73.8567",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLon",
+                  "value": "73.8567"
+                }
+              ]
+            },
+            "description": "🔍 Test validation for missing userLat parameter.\n\n**Expected**: 400 Bad Request with userLat validation error"
+          }
+        },
+        {
+          "name": "❌ List Schools - Invalid User Coordinates",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});",
+                  "",
+                  "pm.test('Returns validation error for invalid coordinates', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('errors');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLat=100&userLon=200",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLat",
+                  "value": "100",
+                  "description": "Invalid latitude > 90"
+                },
+                {
+                  "key": "userLon",
+                  "value": "200",
+                  "description": "Invalid longitude > 180"
+                }
+              ]
+            },
+            "description": "🔍 Test validation for invalid user coordinates.\n\n**Expected**: 400 Bad Request with coordinate validation errors"
+          }
+        }
+      ],
+      "description": "❌ Input validation and error handling tests"
+    },
+    {
+      "name": "🌍 Distance Calculation Tests",
+      "item": [
+        {
+          "name": "📏 Distance Test - Same Location",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Distance is very small for same location', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    if (jsonData.length > 0) {",
+                  "        // Find Bangalore school and check distance from Bangalore coordinates",
+                  "        const bangaloreSchool = jsonData.find(school => school.name.includes('Bangalore'));",
+                  "        if (bangaloreSchool) {",
+                  "            pm.expect(bangaloreSchool.distance_km).to.be.below(1); // Should be very close",
+                  "        }",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLat=12.9716&userLon=77.5946",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLat",
+                  "value": "12.9716",
+                  "description": "Bangalore latitude (same as one school)"
+                },
+                {
+                  "key": "userLon",
+                  "value": "77.5946",
+                  "description": "Bangalore longitude (same as one school)"
+                }
+              ]
+            },
+            "description": "📏 Test distance calculation when user is at same location as a school.\n\n**Expected**: Distance should be ~0 km for Bangalore school"
+          }
+        },
+        {
+          "name": "📏 Distance Test - Known Distances",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Mumbai distance from Pune is reasonable', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const mumbaiSchool = jsonData.find(school => school.name.includes('Mumbai'));",
+                  "    if (mumbaiSchool) {",
+                  "        // Mumbai to Pune is approximately 118 km",
+                  "        pm.expect(mumbaiSchool.distance_km).to.be.within(100, 140);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Bangalore distance from Pune is reasonable', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const bangaloreSchool = jsonData.find(school => school.name.includes('Bangalore'));",
+                  "    if (bangaloreSchool) {",
+                  "        // Bangalore to Pune is approximately 457 km",
+                  "        pm.expect(bangaloreSchool.distance_km).to.be.within(400, 500);",
+                  "    }",
+                  "});",
+                  "",
+                  "pm.test('Delhi distance from Pune is reasonable', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    const delhiSchool = jsonData.find(school => school.name.includes('Delhi'));",
+                  "    if (delhiSchool) {",
+                  "        // Delhi to Pune is approximately 1,163 km",
+                  "        pm.expect(delhiSchool.distance_km).to.be.within(1100, 1200);",
+                  "    }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/listSchools?userLat=18.5204&userLon=73.8567",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "listSchools"
+              ],
+              "query": [
+                {
+                  "key": "userLat",
+                  "value": "18.5204",
+                  "description": "Pune latitude"
+                },
+                {
+                  "key": "userLon", 
+                  "value": "73.8567",
+                  "description": "Pune longitude"
+                }
+              ]
+            },
+            "description": "📏 Verify distance calculations are within reasonable ranges.\n\n**Expected Distances from Pune**:\n- Mumbai: ~118 km\n- Bangalore: ~457 km  \n- Delhi: ~1,163 km"
+          }
+        }
+      ],
+      "description": "📏 Tests to verify distance calculation accuracy"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global pre-request script",
+          "console.log('🚀 Running School Management API Tests');",
+          "console.log('📍 Base URL:', pm.variables.get('baseUrl'));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Global test script",
+          "pm.test('Response time is acceptable', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(30000); // 30 seconds max (including cold start)",
+          "});",
+          "",
+          "pm.test('Response has valid JSON', function () {",
+          "    pm.response.to.be.json;",
+          "});"
+        ]
+      }
+    }
+  ]
+}
